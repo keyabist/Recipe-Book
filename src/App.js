@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import RecipeList from './components/RecipeList';
 import RecipeForm from './components/RecipeForm';
 import Filter from './components/Filter';
+import './App.css';
 
 function App() {
   const [recipes, setRecipes] = useState([]); // State for storing recipes
@@ -10,18 +11,21 @@ function App() {
 
   // Load recipes and favourites from localStorage when the component mounts
   useEffect(() => {
-    const storedRecipes = JSON.parse(localStorage.getItem('recipes')) || [];
-    setRecipes(storedRecipes); // Populate recipes state with stored data
+    const storedRecipes = JSON.parse(localStorage.getItem('recipes') || '[]');
+    setRecipes(storedRecipes.filter(recipe => recipe && recipe.title)); // Filter out any invalid recipes
 
-    const storedFavourites = JSON.parse(localStorage.getItem('favourites')) || [];
-    setFavourites(storedFavourites); // Populate favourites state
+    const storedFavourites = JSON.parse(localStorage.getItem('favourites') || '[]');
+    setFavourites(storedFavourites);
   }, []);
 
   // Function to add a new recipe
   const addRecipe = (recipe) => {
-    const newRecipes = [...recipes, { ...recipe, id: Date.now() }];
-    setRecipes(newRecipes); // Update recipes state
-    localStorage.setItem('recipes', JSON.stringify(newRecipes)); // Save to localStorage
+    if (recipe && recipe.title) {
+      const newRecipe = { ...recipe, id: Date.now() };
+      const newRecipes = [...recipes, newRecipe];
+      setRecipes(newRecipes);
+      localStorage.setItem('recipes', JSON.stringify(newRecipes));
+    }
   };
 
   // Function to toggle a recipe as favourite
@@ -34,7 +38,8 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="container">
+      <h1>My Recipe App</h1>
       <Filter categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter} />
       <RecipeForm addRecipe={addRecipe} />
       <RecipeList
@@ -48,3 +53,4 @@ function App() {
 }
 
 export default App;
+

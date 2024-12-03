@@ -1,15 +1,24 @@
 import React from 'react';
 
-function RecipeItem({ recipe, isFavourite, toggleFavourite }) {
+const RecipeItem = ({ recipe, isFavourite, toggleFavourite, onViewRecipe }) => {
+    if (!recipe) {
+        return null;
+    }
+
     return (
-        <div>
-            <h3>{recipe.title}</h3>
-            <p>{recipe.category}</p>
-            <button onClick={() => toggleFavourite(recipe.id)}>
+        <div className={`recipe-item ${isFavourite ? 'favorite' : ''}`}>
+            <h3>{recipe.title || 'Untitled Recipe'}</h3>
+            <p>{recipe.category || 'Uncategorized'}</p>
+            <button className="view-recipe-btn" onClick={onViewRecipe}>View Recipe</button>
+            <button
+                className={`favorite-btn ${isFavourite ? 'active' : ''}`}
+                onClick={() => toggleFavourite(recipe.id)}
+            >
                 {isFavourite ? 'Unfavourite' : 'Favourite'}
             </button>
         </div>
     );
-}
+};
 
 export default RecipeItem;
+

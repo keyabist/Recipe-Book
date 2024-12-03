@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Filter({ categoryFilter, setCategoryFilter }) {
+const Filter = ({ categoryFilter, setCategoryFilter }) => {
     return (
-        <div>
+        <div className="filter">
             <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
@@ -15,6 +15,7 @@ function Filter({ categoryFilter, setCategoryFilter }) {
             </select>
         </div>
     );
-}
+};
 
 export default Filter;
+

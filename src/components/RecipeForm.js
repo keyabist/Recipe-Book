@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
 
-function RecipeForm({ addRecipe }) {
+const RecipeForm = ({ addRecipe }) => {
     const [title, setTitle] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [instructions, setInstructions] = useState('');
     const [category, setCategory] = useState('Breakfast');
 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent form reload
+        e.preventDefault();
         addRecipe({ title, ingredients, instructions, category });
         // Reset the form fields
         setTitle('');
         setIngredients('');
         setInstructions('');
+        setCategory('Breakfast');
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="recipe-form">
             <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -47,6 +48,7 @@ function RecipeForm({ addRecipe }) {
             <button type="submit">Add Recipe</button>
         </form>
     );
-}
+};
 
 export default RecipeForm;
+
